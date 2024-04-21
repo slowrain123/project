@@ -10,6 +10,8 @@ class GameSPrite(sprite.Sprite):
             super().__init__()
             self.image = transform.scale(image.load(player_image),(player_asd,player_hh))
             self.speed = player_speed
+            self.speedX = player_speed
+            self.speedY = player_speed
             self.rect = self.image.get_rect()
             self.rect.x = player_x
             self.rect.y = player_y
@@ -19,59 +21,69 @@ class GameSPrite(sprite.Sprite):
 class Player(GameSPrite):
         def update(self):
             keys_pressed = key.get_pressed()
-            if keys_pressed[K_w]:
+            if keys_pressed[K_UP]:
                 self.rect.y -= self.speed
-            if keys_pressed[K_s]:
+            if keys_pressed[K_DOWN]:
                 self.rect.y += self.speed
-            if keys_pressed[K_a]:
-                self.rect.x -= self.speed
-            if keys_pressed[K_d]:
-                self.rect.x += self.speed
+
+
+
+
+
+
+
+
+
+
 
 
 class Enemy(GameSPrite):
     def update(self):
         keys_pressed = key.get_pressed()
-        if keys_pressed[K_UP]:
-            self.rect.y -= self.speed
-        if keys_pressed[K_DOWN]:
-         self.rect.y += self.speed
-        if keys_pressed[K_LEFT]:
-            self.rect.x -= self.speed
-        if keys_pressed[K_RIGHT]:
-            self.rect.x += self.speed
-
+        if keys_pressed[K_w]:
+                self.rect.y -= self.speed
+        if keys_pressed[K_s]:
+                self.rect.y += self.speed
+        
 
 class Ball(GameSPrite):
-    directionX = 'left'
-    directionY = "up"
     def update(self):
+        self.rect.x += self.speedX
+        self.rect.y += self.speedY
         if self.rect.x <= 0:
-            self.directionX = "right"
-        if self.rect.x >= 700:
-            self.directionX = "left"
-        if self.directionX == "left":
-            self.rect.x -= self.speed
-        if self.directionX == "right":
-            self.rect.x += self.speed
-
+            self.rect.x = 500
+            
+        if self.rect.x >= 650:
+            self.rect.x = 100
 
         if self.rect.y <= 0:
-            self.directionY = "down"
+            self.speedY *= -1
         if self.rect.y >= 450:
-            self.directionY = "up"
-        if self.directionY == "up":
-            self.rect.y -= self.speed
-        if self.directionY == "down":
-            self.rect.y += self.speed
-            
+            self.speedY *= -1
+
+        if sprite.collide_rect(sprite1, sprite3):
+            self.speedX *= -1
+
+        if sprite.collide_rect(sprite2, sprite3):
+            self.speedX *= -1
 
 
-sprite1 = Player("gg.png",300,50,5, 70,50)
-sprite2 = Enemy("ll.webp",300,50,5, 70,50)
-sprite3 = Ball("tt.png",50,50,5,70,50)
+sprite1 = Player("gg.png",630,200,5, 70,50)
+sprite2 = Enemy("ll.webp",5,200,5, 70,50)
+sprite3 = Ball("tt.png",30,80,5,70,50)
 finish = False
 game = True
+
+
+
+
+
+
+
+
+
+
+
 while game:
     if finish!= True:
         window.blit(background,(0,0))
@@ -95,5 +107,5 @@ while game:
         if e.type == QUIT:
             game = False
         
-    clock.tick(60)
+    clock.tick(75)
 
