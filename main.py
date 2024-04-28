@@ -1,6 +1,7 @@
 from pygame import *
 from random import*
-
+font.init()
+font2 = font.Font(None, 64)
 clock = time.Clock()
 window = display.set_mode((700,500))
 display.set_caption("Догонялки")
@@ -25,18 +26,6 @@ class Player(GameSPrite):
                 self.rect.y -= self.speed
             if keys_pressed[K_DOWN]:
                 self.rect.y += self.speed
-
-
-
-
-
-
-
-
-
-
-
-
 class Enemy(GameSPrite):
     def update(self):
         keys_pressed = key.get_pressed()
@@ -48,12 +37,16 @@ class Enemy(GameSPrite):
 
 class Ball(GameSPrite):
     def update(self):
+        global score1
+        global score2
         self.rect.x += self.speedX
         self.rect.y += self.speedY
         if self.rect.x <= 0:
             self.rect.x = 500
-            
+            score2  += 1
         if self.rect.x >= 650:
+            score1 += 1
+            
             self.rect.x = 100
 
         if self.rect.y <= 0:
@@ -66,6 +59,12 @@ class Ball(GameSPrite):
 
         if sprite.collide_rect(sprite2, sprite3):
             self.speedX *= -1
+        
+
+
+
+
+  
 
 
 sprite1 = Player("gg.png",630,200,5, 70,50)
@@ -73,10 +72,8 @@ sprite2 = Enemy("ll.webp",5,200,5, 70,50)
 sprite3 = Ball("tt.png",30,80,5,70,50)
 finish = False
 game = True
-
-
-
-
+score1 = 0
+score2 = 0
 
 
 
@@ -93,19 +90,21 @@ while game:
         sprite2.update()
         sprite3.reset()
         sprite3.update()
-        display.update()
-
-
-
-    def reset(self):
-        window.blit(self.image,(self.rect.x,self.rect.y))
+    if score1 >= 1:
+        text3 = font2.render("Игрок справа проиграл",True,(255,0,0))
+        window.blit(text3,(100,250))
+        finish = True
     
-    
+    text1 = font2.render(str(score1) + ':' + str(score2),True,(255,0,0))
+    window.blit(text1,(300,10))
     
     
     for e in event.get():
         if e.type == QUIT:
             game = False
         
+    display.update()
     clock.tick(75)
+
+
 
