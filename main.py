@@ -5,7 +5,7 @@ font2 = font.Font(None, 64)
 clock = time.Clock()
 window = display.set_mode((700,500))
 display.set_caption("Догонялки")
-background = transform.scale(image.load("gg.jpg"),(700,500))
+background = transform.scale(image.load("rr.jpg"),(700,500))
 class GameSPrite(sprite.Sprite):
         def __init__(self, player_image,player_x,player_y,player_speed,player_asd,player_hh):
             super().__init__()
@@ -61,12 +61,6 @@ class Ball(GameSPrite):
             self.speedX *= -1
         
 
-
-
-
-  
-
-
 sprite1 = Player("gg.png",630,200,5, 70,50)
 sprite2 = Enemy("ll.webp",5,200,5, 70,50)
 sprite3 = Ball("tt.png",30,80,5,70,50)
@@ -74,11 +68,6 @@ finish = False
 game = True
 score1 = 0
 score2 = 0
-
-
-
-
-
 
 
 while game:
@@ -90,11 +79,14 @@ while game:
         sprite2.update()
         sprite3.reset()
         sprite3.update()
-    if score1 >= 1:
+    if score1 >= 6:
         text3 = font2.render("Игрок справа проиграл",True,(255,0,0))
         window.blit(text3,(100,250))
         finish = True
-    
+    if score2 >= 6:
+        text3 = font2.render("Игрок слева  проиграл",True,(255,0,0))
+        window.blit(text3,(100,250))
+        finish = True
     text1 = font2.render(str(score1) + ':' + str(score2),True,(255,0,0))
     window.blit(text1,(300,10))
     
@@ -105,6 +97,4 @@ while game:
         
     display.update()
     clock.tick(75)
-
-
 
