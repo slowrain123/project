@@ -63,12 +63,14 @@ class Ball(GameSPrite):
 
 sprite1 = Player("gg.png",630,200,5, 70,50)
 sprite2 = Enemy("ll.webp",5,200,5, 70,50)
-sprite3 = Ball("tt.png",30,80,5,70,50)
+sprite3 = Ball("tt.png",30,80,5,50,50)
 finish = False
 game = True
 score1 = 0
 score2 = 0
 
+test1 = True
+test2 = True
 
 while game:
     if finish!= True:
@@ -79,6 +81,20 @@ while game:
         sprite2.update()
         sprite3.reset()
         sprite3.update()
+
+    
+    if score1 == 5:
+        if test1 == True:
+            sprite1.image = transform.scale(image.load('gg.png'),(150,100))
+            sprite1.rect = sprite1.image.get_rect()
+            sprite1.rect.x = 550
+            test1 = False
+    if score2 == 5:
+         if test2 == True:
+            sprite2.image = transform.scale(image.load('ll.webp'),(150,100))
+            sprite2.rect = sprite2.image.get_rect()
+            sprite2.rect.x = 10
+            test2 = False
     if score1 >= 6:
         text3 = font2.render("Игрок справа проиграл",True,(255,0,0))
         window.blit(text3,(100,250))
